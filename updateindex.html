@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styling.css" />
+
+    <title>DLow Mini Games</title>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teks Tengah</title>
+        
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+    
+            .centered-text {
+                text-align: center;
+            }
+        </style>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mulai Permainan</title>
+    
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+    
+            button {
+                padding: 15px 30px;
+                font-size: 18px;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
+
+    <style>
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f3f3f3;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .menu {
+        border: 2px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .game-section {
+        border: 2px solid #ccc;
+        padding: 20px;
+        display: none;
+        width: 300px;
+        text-align: center;
+    }
+
+    .games {
+        display: grid;
+        grid-template-columns: repeat(3, 80px);
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .option {
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        width: 80px;
+        height: 80px;
+        background-color: bisque;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .option:hover {
+        cursor: pointer;
+        background-color: burlywood;
+        transform: scale(1.1);
+    }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <div class="menu">
+            <h1 class="title">MINI GAMES</h1>
+            <button onclick="startGame()">Mulai Permainan</button>
+        </div>
+        <div class="game-section" style="display: none;">
+            <div class="summary">
+                <h1 class="title">MATCH RESULT</h1>
+                <br />
+                <h1 id="inGame"></h1>
+                <h3 id="result"></h3>
+            </div>
+            <div class="games">
+                <div class="option" onclick="pickOption('🖐')">🖐</div>
+                <div class="option" onclick="pickOption('✌')">✌</div>
+                <div class="option" onclick="pickOption('✊')">✊</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class Start {
+            constructor() {
+                this.playerName = "Anda"
+                this.botName = "DLowbot"
+                this.playerOption;
+                this.botOption;
+                this.winner = ""
+            }
+
+            get getBotOption() {
+                return this.botOption;
+            }
+
+            set setBotOption(option) {
+                this.botOption = option;
+            }
+
+            get getPlayerOption() {
+                return this.playerOption
+            }
+
+            set setPlayerOption(option) {
+                this.playerOption = option;
+            }
+
+            botBrain() {
+                const option = ["🖐", "✌", "✊"];
+                const bot = option[Math.floor(Math.random() * option.length)];
+                return bot;
+            }
+
+            winCalculation() {
+                if (this.botOption == "🖐" && this.playerOption == "✌") {
+                    return this.winner = this.playerName
+                } else if (this.botOption == "🖐" && this.playerOption == "✊") {
+                    return this.winner = this.botName;
+                } else if (this.botOption == "✌" && this.playerOption == "🖐") {
+                    return this.winner = this.botName;
+                } else if (this.botOption == "✌" && this.playerOption == "✊") {
+                    return this.winner = this.playerName
+                } else if (this.botOption == "✊" && this.playerOption == "🖐") {
+                    return this.winner = this.playerName
+                } else if (this.botOption == "✊" && this.playerOption == "✌") {
+                    return this.winner = this.botName;
+                } else {
+                    return this.winner = "SERI"
+                }
+            }
+
+            matchResult() {
+                if (this.winner != "SERI") {
+                    return `${this.winner} MENANG!`;
+                } else {
+                    return `HAHA ${this.winner}, GAK ADA YG MENANG 🤪`;
+                }
+            }
+        }
+
+        function startGame() {
+            document.querySelector('.menu').style.display = 'none';
+            document.querySelector('.game-section').style.display = 'block';
+        }
+
+        function pickOption(params) {
+            const start = new Start();
+            start.setPlayerOption = params;
+            start.setBotOption = start.botBrain();
+            start.winCalculation();
+
+            const inGame = document.getElementById("inGame");
+            const result = document.getElementById("result");
+
+            inGame.textContent = "..."
+            result.textContent = "..."
+
+            setTimeout(() => {
+                inGame.textContent = `${start.getPlayerOption} VS ${start.getBotOption}`
+                result.textContent = start.matchResult();
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>
